@@ -1,0 +1,23 @@
+{
+    "discord": {
+        "botToken": "BOT_TOKEN"
+    },
+    "servers": {
+        "ark": { ### HTTP EXAMPLE
+            "serverName": "Ark: Survival Evolved",
+            "query": {
+                "method": "http",
+                "url": "https://query.li/api/:GAME/:IP/:PORT" ### Visit query.li for full docs. Any URL that returns the required data set will work.
+            }
+        },
+        "sandstorm": { ### RCON EXAMPLE
+            "serverName": "Insurgency: Sandstorm",
+            "query": {
+                "method": "rcon",
+                "ip": "RCON_IP",
+                "port": "RCON_PORT",
+                "password": "RCON_PASSWORD"
+            }
+        }
+    }
+}
