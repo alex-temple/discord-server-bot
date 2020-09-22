@@ -6,7 +6,7 @@ const config = require('../config.json');
 
 // Discord
 const Discord = require('discord.js');
-const token = process.env.TOKEN;
+const token = process.env.BOT_TOKEN;
 const commandList = require('./lib/commands');
 
 const bot = new Discord.Client();  // initialise client
@@ -39,10 +39,11 @@ bot.on('message', msg => {
 
     if (!bot.commands.has(cmd)) return; // ignore unknown commands [maybe change to an 'unknown command' reply later]
 
+    logger.info(`${msg.author.username} ran command: ${msg.content}`); // Log command usage
+
     try
     {
         bot.commands.get(cmd).execute(msg, args);
-        logger.info(`${msg.author.username} ran command: ${msg.content}`);
     }
     catch (err)
     {
@@ -52,11 +53,18 @@ bot.on('message', msg => {
 
 // Logging setup
 const winston = require('winston');
-const logger = winston.createLogger({
+const logFormat = winston.format.printf(( { level, msg, timestamp } ) => { // create new log format to include timestamp
+    return `${timestamp} :: [${level}]: ${msg}`;
+});
+
+const logger = winston.createLogger({ // set up logger - format, files, etc
     level: 'info',
-    format: winston.format.json(),
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        logFormat
+    ),
     defaultMeta: {
-        service: 'user-service'
+        service: 'server-bot'
     },
     transports: [
         new winston.transports.File({

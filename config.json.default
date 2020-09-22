@@ -1,22 +1,29 @@
 {
     "discord": {
-        "botToken": "BOT_TOKEN"
+        "prefix": "!",
+        "guildID": "DISCORD SERVER (guild) ID",
+        "categoryID": "CATEGORY ID FOR STATUS CHANNELS",
+        "createStatusChannels": true
     },
     "servers": {
-        "ark": { ### HTTP EXAMPLE
-            "serverName": "Ark: Survival Evolved",
+        "ark": {
+            "image": "https://i.imgur.com/dN2kZ0M.png",
+            "game": "Ark: Survival Evolved",
+            "hostName": "SERVER NAME",
             "query": {
-                "method": "http",
-                "url": "https://query.li/api/:GAME/:IP/:PORT" ### Visit query.li for full docs. Any URL that returns the required data set will work.
+                "type": "arkse",
+                "host": "IP",
+                "port": "PORT"
             }
         },
-        "sandstorm": { ### RCON EXAMPLE
-            "serverName": "Insurgency: Sandstorm",
+        "sandstorm": {
+            "image": "https://i.imgur.com/iso5yKi.png",
+            "game": "Insurgency: Sandstorm",
+            "hostName": "SERVER NAME",
             "query": {
-                "method": "rcon",
-                "ip": "RCON_IP",
-                "port": "RCON_PORT",
-                "password": "RCON_PASSWORD"
+                "type": "insurgencysandstorm",
+                "host": "IP",
+                "port": "PORT"
             }
         }
     }

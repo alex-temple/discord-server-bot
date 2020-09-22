@@ -1,6 +1,50 @@
-# Discord Gameserver Status Bot
+# ServerBot
 
-A bot that will show the status of any servers defined in config.json.
+A discord bot for managing game servers.
 
+## Config
 
- 
+ServerBot uses [Gamedig](https://www.npmjs.com/package/gamedig) to query servers. The list of supported games and returned data can be found on its NPM page.
+
+The `discord` section of config.json is used for setting up your command prefix (default `!`) and specifying where to create status channels (Not yet implemented).
+
+To add a new server, create a new entry in the `servers` section of config.json matching the format below. The initial key for the entry is used to query the server - e.g. in the below example, the query command will be `!status ark`
+
+```json
+"ark": {
+    "image": "https://i.imgur.com/dN2kZ0M.png",
+    "game": "Ark: Survival Evolved",
+    "hostName": "SERVER NAME",
+    "query": {
+        "type": "arkse",
+        "host": "IP",
+        "port": "PORT"
+    }
+}
+```
+
+## Commands
+
+`!ping` - Returns pong. Used for testing.
+
+`!servers` - Returns a list of servers and their IDs as defined in config.json
+
+`!status [server]` - Queries the specified server and displays the response data in a rich embed object. Server ID can be found through `!servers` command.
+
+## Planned Features
+
+-  **Status Channels** - create (unjoinable) voice channels under the category specified in config.json to quickly view online/offline status without running the command. 
+
+   ###### Example:      ![status channel](https://i.imgur.com/orWGMMD.png)
+
+- **Server controls** - specify commands in config.json to start/stop the server, etc.
+
+- **RCON** - run RCON commands through the bot for supported games.
+
+- **Raw data** - specify data to load from the `raw` object. See Gamedig for more info.
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+[GPL v3.0](https://choosealicense.com/licenses/gpl-3.0/)
