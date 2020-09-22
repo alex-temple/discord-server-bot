@@ -3,9 +3,8 @@ const config = require('../../config.json');
 const prefix = config.discord.prefix;
 const servers = config.servers;
 
+const {queryServer} = require('./util');
 const Discord = require('discord.js');
-const fetch = require('node-fetch');
-const Gamedig = require('gamedig');
 
 const commandList = [
     {   // Ping command. Just returns pong for testing the bot.
@@ -28,13 +27,13 @@ const commandList = [
 
             let serverList = '';
             const ids = Object.keys(servers); // Get object keys for each server
+            
             ids.map(id => {
                 const server = servers[id];
                 serverList += `**${id}** - ${server.game}\n`;
             });
 
-            embed.addField("💠", serverList)
-                 .addField('\u200b', '\u200b');
+            embed.addField("💠💠💠💠💠💠💠💠", serverList);
             msg.channel.send(embed); // Send the embed
         }
     },
@@ -59,42 +58,23 @@ const commandList = [
                 return;
             }
 
-            queryServer(server).then(res => {
-                msg.channel.send(res);
-            }).catch(err => {
-                msg.channel.send(err);
+            const embed = new Discord.MessageEmbed().setThumbnail(server.image); // create embed object and set thumbnail
+
+            queryServer(server).then(res => { // If server online, populate embed with details and post it
+                embed.setColor('#16C60C')
+                     .setTitle(res.name)
+                     .setDescription("🟢  Online")
+                     .addField('Status', `Players: ${res.players.length}/${res.maxplayers}\nMap: ${res.map}\nPing: ${res.ping}`)
+                     .setFooter(`Connect: ${res.connect}`);
+                msg.channel.send(embed);
+            }).catch(err => { // If server is offline, send error embed
+                embed.setColor('#E81224')
+                     .setTitle(server.hostName)
+                     .setDescription("🔴  Offline");
+                msg.channel.send(embed);
             });
         }
     }
 ];
-
-const queryServer = (server) => {
-    return new Promise((resolve, reject) => {
-        const {type, host, port} = server.query; // grab query details from config
-        const embed = new Discord.MessageEmbed() // create embed object and set thumbnail
-            .setThumbnail(server.image);
-
-        Gamedig.query({ // query the server
-            type,
-            host,
-            port
-        }).then (res => { // ***IF SERVER RESPONDS***
-            const {name, map, players, maxplayers, connect, ping} = res; // grab global return values and raw object from the response
-
-            // populate the rest of the embed object using data from the query
-            embed.setColor('#16C60C')
-                 .setTitle(name)
-                 .setDescription("🟢  Online")
-                 .addField('Status', `Players: ${players.length}/${maxplayers}\nMap: ${map}\nPing: ${ping}`)
-                 .setFooter(`Connect: ${connect}`);
-                 resolve(embed);
-        }).catch (err => { // ***IF NO RESPONSE***
-            embed.setColor('#E81224')
-                 .setTitle(server.hostName)
-                 .setDescription("🔴  Offline");
-            reject(embed);
-        });
-    });
-}
 
 module.exports = commandList;

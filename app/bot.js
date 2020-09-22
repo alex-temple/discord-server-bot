@@ -5,15 +5,17 @@ require('dotenv').config();
 const config = require('../config.json');
 
 // Discord
-const Discord = require('discord.js');
 const token = process.env.BOT_TOKEN;
+const Discord = require('discord.js');
 const commandList = require('./lib/commands');
+const {statusChannels} = require('./lib/util');
+const {prefix, guildID, categoryID, createStatusChannels} = config.discord;
 
 const bot = new Discord.Client();  // initialise client
 bot.commands = new Discord.Collection();
 
 commandList.forEach(command => {
-    bot.commands.set(command.name, command);
+    bot.commands.set(command.name, command); // add commands to collection
 });
 
 // Bot events
@@ -25,7 +27,25 @@ bot.on('ready', () => {
             name: "with servers"
         }
     }).then(logger.info("Bot status set"))
-      .catch(console.error);
+      .catch(err => {logger.error(err)});
+
+    if (createStatusChannels) // check if the bot is set to create status channels
+    {
+        bot.guilds.fetch(guildID) // get guild from ID
+           .then(guild => {
+                const category = guild.channels.resolve(categoryID); // get category from ID
+                const servers = config.servers; 
+
+                statusChannels(guild, servers, category, logger); // generate initial channels
+                bot.setInterval(() => {
+                    statusChannels(guild, servers, category, logger); // refresh channels every 60s
+                }, 60000);
+
+           })
+           .catch(err => {
+               logger.error(err);
+           });
+    }
 });
 
 bot.on('reconnecting', () => {
@@ -33,8 +53,8 @@ bot.on('reconnecting', () => {
 });
 
 bot.on('message', msg => {
-    if (!msg.content.startsWith(config.discord.prefix) || msg.author.bot) return; // check if message starts with command prefix (config.json) or originates from the bot. if so, ignore
-    const args = msg.content.slice(config.discord.prefix.length).trim().split(/ +/); // split args
+    if (!msg.content.startsWith(prefix) || msg.author.bot) return; // check if message starts with command prefix (config.json) or originates from the bot. if so, ignore
+    const args = msg.content.slice(prefix.length).trim().split(/ +/); // split args
     const cmd = args.shift().toLowerCase();
 
     if (!bot.commands.has(cmd)) return; // ignore unknown commands [maybe change to an 'unknown command' reply later]

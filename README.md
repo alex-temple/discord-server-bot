@@ -31,11 +31,19 @@ To add a new server, create a new entry in the `servers` section of config.json 
 
 `!status [server]` - Queries the specified server and displays the response data in a rich embed object. Server ID can be found through `!servers` command.
 
+## Status Channels
+
+The bot can create unjoinable voice channels to indicate the status of your servers. To do this, set `createStatusChannels` to *true* in config.json, and also specify your guild ID and category ID.
+
+The bot will create a voice channel for each server listed in config.json, using the `channelName` field as the name. Example:
+
+![status channels](https://i.imgur.com/aLzXTIp.png)
+
+Currently the bot does not clean up channels which don't match a server on config.json, that will be added once I refine the updating method a bit.
+
 ## Planned Features
 
--  **Status Channels** - create (unjoinable) voice channels under the category specified in config.json to quickly view online/offline status without running the command. 
-
-   ###### Example:      ![status channel](https://i.imgur.com/orWGMMD.png)
+-  ~~**Status Channels** - create (unjoinable) voice channels under the category specified in config.json to quickly view online/offline status without running the command.~~
 
 - **Server controls** - specify commands in config.json to start/stop the server, etc.
 
