@@ -1,12 +1,12 @@
 {
   "name": "discord-status-bot",
-  "version": "0.3.0",
-  "description": "",
+  "version": "0.3.5",
+  "description": "A Discord bot for querying and monitoring game servers",
   "main": "app/bot.js",
   "scripts": {
-    "start": "node app/bot.js"
+    "start": "node app/app.js"
   },
-  "author": "",
+  "author": "Alex Temple",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.3.1",

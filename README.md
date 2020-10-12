@@ -14,6 +14,7 @@ To add a new server, create a new entry in the `servers` section of config.json 
 "ark": {
     "image": "https://i.imgur.com/dN2kZ0M.png",
     "game": "Ark: Survival Evolved",
+    "channelName": "STATUS CHANNEL NAME",
     "hostName": "SERVER NAME",
     "query": {
         "type": "arkse",
@@ -37,7 +38,7 @@ The bot can create unjoinable voice channels to indicate the status of your serv
 
 The bot will create a voice channel for each server listed in config.json, using the `channelName` field as the name. Example:
 
-![status channels](https://i.imgur.com/aLzXTIp.png)
+![status channels](https://i.imgur.com/hnfAyfn.png)
 
 Currently the bot does not clean up channels which don't match a server on config.json, that will be added once I refine the updating method a bit.
 
@@ -50,6 +51,8 @@ Currently the bot does not clean up channels which don't match a server on confi
 - **RCON** - run RCON commands through the bot for supported games.
 
 - **Raw data** - specify data to load from the `raw` object. See Gamedig for more info.
+
+- **Docker image** - create a Dockerfile to run the bot in a container. Will require a couple of workarounds to also allow for starting/stopping the server
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
