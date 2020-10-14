@@ -8,7 +8,7 @@ ServerBot uses [Gamedig](https://www.npmjs.com/package/gamedig) to query servers
 
 The `discord` section of config.json is used for setting up your command prefix (default `!`) and specifying where to create status channels (Not yet implemented).
 
-To add a new server, create a new entry in the `servers` section of config.json matching the format below. The initial key for the entry is used to query the server - e.g. in the below example, the query command will be `!status ark`
+To add a new server, create a new entry in the `servers` section of config.json matching the format below. The initial key for the entry is used to query the server - e.g. in the below example, the query command will be `!query ark`
 
 ```json
 "ark": {
@@ -30,7 +30,7 @@ To add a new server, create a new entry in the `servers` section of config.json 
 
 `!servers` - Returns a list of servers and their IDs as defined in config.json
 
-`!status [server]` - Queries the specified server and displays the response data in a rich embed object. Server ID can be found through `!servers` command.
+`!query [server]` - Queries the specified server and displays the response data in a rich embed object. Server ID can be found through `!servers` command.
 
 ## Status Channels
 
@@ -40,7 +40,7 @@ The bot will create a voice channel for each server listed in config.json, using
 
 ![status channels](https://i.imgur.com/hnfAyfn.png)
 
-Currently the bot does not clean up channels which don't match a server on config.json, that will be added once I refine the updating method a bit.
+The bot will also remove any channels under the specified category which do not match any servers in config.json.
 
 ## Planned Features
 
