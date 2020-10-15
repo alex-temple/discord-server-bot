@@ -20,7 +20,6 @@ To add a new server, create a new entry in the `servers` section of config.json 
         "type": "arkse",
         "host": "IP",
         "port": "PORT"
-    }
 		},
 		"commands": {
 			"start": "/path/to/server/file start",
@@ -63,7 +62,6 @@ The bot will also remove any channels under the specified category which do not 
 
 -  ~~**Status Channels** - create (unjoinable) voice channels under the category specified in config.json to quickly view online/offline status without running the command.~~
 
-- **Server controls** - specify commands in config.json to start/stop the server, etc.
 - ~~**Server controls** - specify commands in config.json to start/stop the server, etc.~~
 
 - **RCON** - run RCON commands through the bot for supported games.
