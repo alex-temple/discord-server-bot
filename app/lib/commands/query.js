@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { MessageEmbed } = require('discord.js');
 const { queryServer } = require('../util');
 const { discord, servers } = require('../../../config.json');
@@ -11,8 +10,7 @@ module.exports = 	{
 		// CHECK THAT SERVER ID IS SET AND EXISTS
 		if (args.length == 0 || args.length > 1) // if no args supplied, or too many args supplied
 		{
-			msg.reply(`Usage: \`${discord.prefix}query <server_id>\`.\nUse \`${discord.prefix}servers\` to get a list of IDs`);
-			return;
+			return msg.reply(`Usage: \`${discord.prefix}query <server_id>\`.\nUse \`${discord.prefix}servers\` to get a list of IDs`);
 		}
 
 		const id = args[0];
@@ -20,8 +18,7 @@ module.exports = 	{
 
 		if (!server) // check if server exists.
 		{
-			msg.reply(`Server with ID ${id} not found.`);
-			return;
+			return msg.reply(`Server with ID ${id} not found.`);
 		}
 
 		const embed = new MessageEmbed().setThumbnail(server.image); // create embed object and set thumbnail
@@ -32,12 +29,12 @@ module.exports = 	{
 				.setDescription('🟢  Online')
 				.addField('Status', `Players: ${res.players.length}/${res.maxplayers}\nMap: ${res.map}\nPing: ${res.ping}`)
 				.setFooter(`Connect: ${res.connect}`);
-			msg.channel.send(embed);
-		}).catch(err => { // If server is offline, send error embed
+			return msg.channel.send(embed);
+		}).catch(() => { // If server is offline, send error embed
 			embed.setColor('#E81224')
 				.setTitle(server.hostName)
 				.setDescription('🔴  Offline');
-			msg.channel.send(embed);
+			return msg.channel.send(embed);
 		});
 	},
 };

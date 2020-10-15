@@ -21,6 +21,13 @@ To add a new server, create a new entry in the `servers` section of config.json 
         "host": "IP",
         "port": "PORT"
     }
+		},
+		"commands": {
+			"start": "/path/to/server/file start",
+			"stop": "/path/to/server/file stop",
+			"restart": "/path/to/server/file restart",
+			"update": "/path/to/server/file update"
+		}
 }
 ```
 
@@ -31,6 +38,19 @@ To add a new server, create a new entry in the `servers` section of config.json 
 `!servers` - Returns a list of servers and their IDs as defined in config.json
 
 `!query [server]` - Queries the specified server and displays the response data in a rich embed object. Server ID can be found through `!servers` command.
+<<<<<<< Updated upstream
+=======
+
+`!start [server]` - Runs the start command in config.json
+
+`!stop [server]` - Runs the stop command in config.json
+
+`!restart [server]` - Runs the restart command in config.json
+
+`!update [server]` - Runs the update command in config.json
+
+`!help` - As of now just prints a list of commands, will eventually print a list of commands and usage.
+>>>>>>> Stashed changes
 
 ## Status Channels
 
@@ -47,6 +67,7 @@ The bot will also remove any channels under the specified category which do not 
 -  ~~**Status Channels** - create (unjoinable) voice channels under the category specified in config.json to quickly view online/offline status without running the command.~~
 
 - **Server controls** - specify commands in config.json to start/stop the server, etc.
+- ~~**Server controls** - specify commands in config.json to start/stop the server, etc.~~
 
 - **RCON** - run RCON commands through the bot for supported games.
 

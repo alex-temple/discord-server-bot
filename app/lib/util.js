@@ -1,6 +1,9 @@
 const { servers } = require('../../config.json');
-const Gamedig = require('gamedig');
 const logger = require('./logger');
+
+const { exec } = require('child_process');
+const Gamedig = require('gamedig');
+
 
 // Query specified game server
 exports.queryServer = (server) => {
@@ -48,7 +51,26 @@ exports.createChannel = (guild, name, options, channel) => {
 
 // Create/update status channels
 exports.statusChannels = (guild, category) => {
+	// list of channels under specified category
 	const children = category.children;
+	// role object for @everyone
+	const everyone = guild.roles.everyone;
+
+	// channel creation options
+	const options = {
+		// channel type voice
+		type: 'voice',
+		// set permissions - disable @everyone from connecting/speaking
+		permissionOverwrites: [
+			{
+				id: everyone.id,
+				allow: [ 'VIEW_CHANNEL' ],
+				deny: [ 'CONNECT', 'SPEAK' ],
+			},
+		],
+		// set parent category
+		parent: category,
+	};
 
 	Object.keys(servers).forEach(id => {
 		const server = servers[id];
@@ -56,11 +78,7 @@ exports.statusChannels = (guild, category) => {
 
 		this.queryServer(server)
 			.then(res => {
-				this.createChannel(guild, `🟢 ${server.channelName} | ${res.players.length}/${res.maxplayers}`, {
-					type: 'voice',
-					userLimit: 0, // THIS CREATES UNLIMITED SLOTS, REMOVE JOIN PERMS FROM @EVERYONE INSTEAD
-					parent: category,
-				}, channel)
+				this.createChannel(guild, `🟢 ${server.channelName} | ${res.players.length}/${res.maxplayers}`, options, channel)
 					.then(() => {
 						logger.channels(`${server.channelName} updated (Online)`);
 					})
@@ -69,11 +87,7 @@ exports.statusChannels = (guild, category) => {
 					});
 			})
 			.catch(() => {
-				this.createChannel(guild, `🔴 ${server.channelName} | Offline`, {
-					type: 'voice',
-					userLimit: 0, // THIS CREATES UNLIMITED SLOTS, REMOVE JOIN PERMS FROM @EVERYONE INSTEAD
-					parent: category,
-				}, channel)
+				this.createChannel(guild, `🔴 ${server.channelName} | Offline`, options, channel)
 					.then(() => {
 						logger.channels(`${server.channelName} updated (Offline)`);
 					})
@@ -103,5 +117,19 @@ exports.cleanup = (category) => {
 			.catch(err => {
 				logger.error(`Error deleting channel: ${err}`);
 			});
+	});
+};
+
+// execute commands on a server
+exports.execCmd = (server, command) => {
+	return new Promise((resolve, reject) => {
+		const targetServer = servers[server];
+
+		if (!targetServer) reject('Server does not exist');
+		if (!Object.prototype.hasOwnProperty.call(targetServer, 'commands')) reject('Server does not support this command');
+
+		exec(targetServer.commands[command], (error, stdout, stderr) => {
+			resolve({ error, stdout, stderr });
+		});
 	});
 };

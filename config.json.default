@@ -9,22 +9,36 @@
         "ark": {
             "image": "https://i.imgur.com/dN2kZ0M.png",
             "game": "Ark: Survival Evolved",
+						"channelName": "STATUS CHANNEL NAME",
             "hostName": "SERVER NAME",
             "query": {
                 "type": "arkse",
                 "host": "IP",
                 "port": "PORT"
-            }
+            },
+						"commands": {
+							"start": "/path/to/server/file start",
+							"stop": "/path/to/server/file stop",
+							"restart": "/path/to/server/file restart",
+							"update": "/path/to/server/file update"
+						}
         },
         "sandstorm": {
             "image": "https://i.imgur.com/iso5yKi.png",
             "game": "Insurgency: Sandstorm",
+						"channelName": "STATUS CHANNEL NAME",
             "hostName": "SERVER NAME",
             "query": {
                 "type": "insurgencysandstorm",
                 "host": "IP",
                 "port": "PORT"
-            }
+            },
+						"commands": {
+							"start": "/path/to/server/file start",
+							"stop": "/path/to/server/file stop",
+							"restart": "/path/to/server/file restart",
+							"update": "/path/to/server/file update"
+						}
         }
     }
 }

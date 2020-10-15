@@ -21,6 +21,6 @@ module.exports = 	{
 		});
 
 		embed.addField('~~~~~~~~~~~~~~~~', serverList);
-		msg.channel.send(embed); // Send the embed
+		return msg.channel.send(embed); // Send the embed
 	},
 };
